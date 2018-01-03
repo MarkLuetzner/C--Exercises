@@ -1,0 +1,23 @@
+﻿<Window x:Class="exercise2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:exercise2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="textÄndern" Content="Label bei aktivierter Checkbox ändern" HorizontalAlignment="Left" Margin="99,73,0,0" VerticalAlignment="Top" Width="75" Click="textÄndern_Click"/>
+        <CheckBox x:Name="checkAktivieren" Content="Label-Änderung aktivieren" Grid.Column="1" HorizontalAlignment="Left" Margin="108,82,0,0" VerticalAlignment="Top" Foreground="White" Checked="checkAktivieren_Checked"/>
+        <TextBlock x:Name="labelText" Grid.Column="1" HorizontalAlignment="Left" Margin="90,81,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Foreground="White"/>
+
+    </Grid>
+</Window>
