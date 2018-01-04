@@ -67,5 +67,37 @@ namespace Exercise_p391
         {
             cards.Sort(new CardComparer_bySuit());
         }
+
+        public Card Peek(int cardNumber)
+        {
+            return cards[cardNumber];
+        }
+
+        public Card Deal()
+        {
+            return Deal(0);
+        }
+
+        public bool ContainsValue(Values Value)
+        {
+            foreach (Card card in cards)
+                if (card.Value == Value)
+                    return true;
+            return false;
+        }
+
+        public Deck PullOutValues(Values value)
+        {
+            Deck deckToReturn = new Deck(new Card[] { });
+            for (int i = cards.Count -1 ; i >= 0; i--)
+
+                if (cards[i].Value == value)
+                    deckToReturn.Add(Deal(i));
+            return deckToReturn;
+        }
+
+
+
+
     }
 }

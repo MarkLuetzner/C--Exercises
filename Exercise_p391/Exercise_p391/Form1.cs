@@ -113,24 +113,16 @@ namespace Exercise_p391
         public Values GetRandomValue()
         {
             random = new Random();
-            int randomNumber= random.Next(1, 13);
-            for (int i = 0; i < Deck.//Number of cards in deck; i++)
-            {
-
-
-                if ((Values)randomNumber == Deck.card[i].Value)
-                return randomNumber;
-                (int)cards.Values
-                else
-                //No cards in deck
+            { 
+                int randomNumber = random.Next(1, cards.Count);
+                return cards.Peek(randomNumber).Value;
             }
-
         }
 
         public Deck DoYouHaveAny(Values value)
         {
-
-
+        Deck pulledCards = cards.PullOutValues(value);
+        Card.Pl
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock)

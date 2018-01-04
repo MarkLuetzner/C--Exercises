@@ -6,7 +6,7 @@ namespace Exercise_p391
 
     public class Card
     {
-        public Suits Suit { get; set; }
+        public Suits Suit { get;  set; }
         public Values Value { get; set; }
         public string Name
         {
@@ -45,9 +45,8 @@ namespace Exercise_p391
             {
                 return false;
             }
-
         }
-
-    }
+       
+     }
 
 }
