@@ -33,6 +33,17 @@ namespace Exercise_p391
             cards.Add(cardToAdd);
         }
 
+        public void Remove(Deck cardsToRemove)
+        {
+            foreach (Card card in cardsToRemove.cards)
+                cards.Remove(card);
+        }
+
+        public Card Deal()
+        {
+            return Deal(0);
+        }
+
         public Card Deal(int index)
         {
             Card CardToDeal = cards[index];
@@ -68,14 +79,14 @@ namespace Exercise_p391
             cards.Sort(new CardComparer_bySuit());
         }
 
+        public void SortByValue()
+        {
+            cards.Sort(new CardComparer_byValue());
+        }
+
         public Card Peek(int cardNumber)
         {
             return cards[cardNumber];
-        }
-
-        public Card Deal()
-        {
-            return Deal(0);
         }
 
         public bool ContainsValue(Values Value)
@@ -96,8 +107,17 @@ namespace Exercise_p391
             return deckToReturn;
         }
 
-
-
+        public bool Hasbook(Values value)
+        {
+            int NumberofCards = 0;
+            foreach (Card card in cards)
+                if (card.Value == value)
+                    NumberofCards++;
+            if (NumberofCards == 4)
+                return true;
+            else
+                return false;
+        }
 
     }
 }

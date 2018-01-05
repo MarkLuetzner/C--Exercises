@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Exercise_p391;
 
 namespace Exercise_p391
 {
@@ -25,7 +26,6 @@ namespace Exercise_p391
             {
                 MessageBox.Show("Please enter your name", "Can't start the game yet");
                 return;
-
             }
             game = new Game(textName.Text, new List<string> { "Joe", "Bob" }, textProgress);
             buttonStart.Enabled = false;
@@ -65,78 +65,6 @@ namespace Exercise_p391
             else
                 UpdateForm();
         }
-    }
-
-    class Player
-    {
-        private string name;
-        public string Name { get { return name; } }
-        private Random random;
-        private Deck cards;
-        private TextBox textBoxOnForm;
-
-        public int CardCount { get { return cards.Count; } }
-        public void TakeCard(Card card) { cards.Add(card); }
-        public IEnumerable<string> GetCardNames() { return cards.GetCardNames(); }
-        public Card Peek(int cardNumber) { return cards.Peek(cardNumber); }
-        public void SortHand() { cards.SortByValue(); }
-
-
-
-        public Player(String name, Random random, TextBox textBoxOnForm)
-        {
-            //FIll in code
-        }
-
-        public IEnumerable<Values> PullOutBooks()
-        {
-            List<Values> books = new List<Values()>;
-            for (int i=1; i<= 13; i++)
-            {
-                Values value = (Values)i;
-                int howMany = 0;
-                for (int card = 0; card < cards.Count; card++)
-                {
-                    if (cards.Peek(card).Value == value)
-                        howMany++;
-                    if (howMany == 4)
-                    {
-                        books.Add(value);
-                        cards.PullOutValues(value);
-                    }
-                }
-
-            }
-            return books;
-        }
-
-        public Values GetRandomValue()
-        {
-            random = new Random();
-            { 
-                int randomNumber = random.Next(1, cards.Count);
-                return cards.Peek(randomNumber).Value;
-            }
-        }
-
-        public Deck DoYouHaveAny(Values value)
-        {
-        Deck pulledCards = cards.PullOutValues(value);
-        Card.Pl
-        }
-
-        public void AskForACard(List<Player> players, int myIndex, Deck stock)
-        {
-
-
-        }
-
-        public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
-        {
-
-
-        }
-
     }
 
     class Game
@@ -212,5 +140,99 @@ namespace Exercise_p391
     }
 
 
+    class Player
+    {
+        private string name;
+        public string Name { get { return name; } }
+        private Random random;
+        private Deck cards;
+        private TextBox textBoxOnForm;
+
+        public int CardCount { get { return cards.Count; } }
+        public void TakeCard(Card card) { cards.Add(card); }
+        public IEnumerable<string> GetCardNames() { return cards.GetCardNames(); }
+        public Card Peek(int cardNumber) { return cards.Peek(cardNumber); }
+        public void SortHand() { cards.SortByValue(); }
+
+
+
+        public Player(String name, Random random, TextBox textBoxOnForm)
+        {
+            //FIll in code
+        }
+
+        public IEnumerable<Values> PullOutBooks()
+        {
+            List<Values> books = new List<Values>();
+            for (int i=1; i<= 13; i++)
+            {
+                Values value = (Values)i;
+                int howMany = 0;
+                for (int card = 0; card < cards.Count; card++)
+                {
+                    if (cards.Peek(card).Value == value)
+                        howMany++;
+                    if (howMany == 4)
+                    {
+                        books.Add(value);
+                        cards.PullOutValues(value);
+                    }
+                }
+
+            }
+            return books;
+        }
+
+        public Values GetRandomValue()
+        {
+            random = new Random();
+            { 
+                int randomNumber = random.Next(1, 13);
+                return (Values)randomNumber;
+            }
+        }
+
+        public Deck DoYouHaveAny(Values value)
+        {
+        Deck pulledCards = cards.PullOutValues(value);
+            if (pulledCards == null)
+            {
+                //print "I do not have that card"
+            }
+            else
+            {
+                cards.Remove(pulledCards);
+                //print "I have" + pulledCards.Count "of" + value;
+            }
+            Form1.textProgress.Text += game.DescribePlayerHands();
+            return pulledCards; 
+        }
+
+        public void AskForACard(List<Player> players, int myIndex, Deck stock)
+        {
+            Values value = GetRandomValue();
+            AskForACard(players, myIndex,  stock, value);
+        }
+
+        public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
+        {
+            textProgress.Text += name + "asks if anyone has a" + value;
+            players.RemoveAt(myIndex);
+            foreach (Player player in players)
+            {
+                Deck deck = DoYouHaveAny(value);
+
+                if (deck != null )
+                for (int i = 0; i < deck.Count; i++)
+                {
+                    cards.Add(deck.Deal(i));
+                        textProgress.Text += player.name + "has" + deck.Count + "of value" + value;
+                    }
+                else
+                    textProgress.Text += player.name + "has no cards of" + value;
+            }
+        }
+
+    }
 
 }

@@ -160,13 +160,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textProgress;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBooks;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonAsk;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.ListBox listHand;
+        public System.Windows.Forms.TextBox textProgress;
     }
 }
 
