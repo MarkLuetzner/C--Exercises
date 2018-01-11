@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Exercise_p391
 {
-    class CardComparer_byValue
+    class CardComparer_byValue : IComparer<Card>
     {
         public int Compare(Card x, Card y)
         {

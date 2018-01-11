@@ -74,10 +74,10 @@ namespace Exercise_p391
         private Dictionary<Values, Player> books;
         private Deck stock;
         private TextBox textBoxOnForm;
+        private Random random = new Random();
 
         public Game(string playerName, IEnumerable<string> opponentNames, TextBox textBoxOnForm)
         {
-            Random random = new Random();
             this.textBoxOnForm = textBoxOnForm;
             players = new List<Player>();
             players.Add(new Player(playerName, random, textBoxOnForm));
@@ -87,35 +87,121 @@ namespace Exercise_p391
             stock = new Deck();
             Deal();
             players[0].SortHand();
-
         }
 
         private void Deal()
         {
-            //ADD code
+            stock.Shuffle();
+            foreach (Player player in players)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    player.TakeCard(stock.Deal());
+                }
+            }
+            foreach (Player player in players)
+                player.PullOutBooks();
         }
 
         public bool PlayOneRound(int selectedPlayerCard)
         {
-            //ADD code
+
+            int myIndex = 0;
+            players[0].AskForACard(players,myIndex,stock, (Values)selectedPlayerCard);
+
+            for (myIndex = 1; myIndex < players.Count; myIndex++)
+            {
+                players[myIndex].AskForACard(players,myIndex,stock);
+            }
+            foreach (Player player in players)
+                if(PullOutBooks(player))
+                    player.TakeCard(stock.Deal());
+            players[0].SortHand();
+            if (stock.Count == 0)
+            {
+                textBoxOnForm.Text = "The stock is out of cards. Game Over!";
+                    return true;
+            }
+            else
+                return false;
         }
 
         public bool PullOutBooks(Player player)
         {
-            //ADD code
+            IEnumerable<Values> values = player.PullOutBooks();
+            foreach (Values value in values)
+            {
+                books.Add(value, player);
+            }
+
+            if (player.CardCount == 0)
+            {
+                return true;
+            }
+          
+                return false;
         }
 
         public string DescribeBooks()
         {
-            // write code
+            Dictionary<string, int> scores = new Dictionary<string, int>();
+            foreach (Player player in players)
+                scores.Add(player.Name, 0);
+
+            foreach (Values value in books.Keys)
+            {
+                string name = books[value].Name;
+                if (scores.ContainsKey(name))
+                    scores[name]++;
+            }
+            string scoreString = "";
+            foreach (string name in scores.Keys)
+            {
+                scoreString = name + "has" + scores[name] +"books";
+            }
+            return scoreString;
         }
 
-        public GetWinnerName()
+        public string GetWinnerName()
         {
-            //
+            Dictionary<string, int> winners = new Dictionary<string, int>();
+            foreach (Player player in players)
+            winners.Add(player.Name,0);
 
-
-        }
+            //Populate winners dictionnary
+            foreach (Values value in books.Keys)
+            {
+                string name = books[value].Name;
+                if (winners.ContainsKey(name))
+                    winners[name]++;
+            }
+            int mostBooks = 0;
+            // Determine "most books"
+            foreach (string name in winners.Keys)
+                if (winners[name] > mostBooks)
+                    mostBooks = winners[name];
+            //Find out if there is a tie with whom
+            List<string> tiePlayers = new List<string>();
+            foreach (string name in winners.Keys)
+                if (winners[name] == mostBooks)
+                    tiePlayers.Add(name);
+            string winningString = "";
+            if (tiePlayers.Count != 1)
+            {
+                for (int i = 0; i < tiePlayers.Count; i++)
+                {
+                    winningString += tiePlayers[i] + ",";
+                    if (i == tiePlayers.Count - 1)
+                    {
+                        winningString += "and" + tiePlayers[i];
+                    }
+                }
+                return "A tie between" + winningString + "with" + mostBooks + "books.";
+            }
+            else
+                winningString = tiePlayers[0];
+            return     winningString + "with" + mostBooks + "books.";
+        } 
 
         public IEnumerable<string> GetPlayerCardNames()
         {
@@ -136,7 +222,6 @@ namespace Exercise_p391
             description += "The stock has" + stock.Count + "cards left.";
             return description;
         }
-
     }
 
 
@@ -154,11 +239,13 @@ namespace Exercise_p391
         public Card Peek(int cardNumber) { return cards.Peek(cardNumber); }
         public void SortHand() { cards.SortByValue(); }
 
-
-
         public Player(String name, Random random, TextBox textBoxOnForm)
         {
-            //FIll in code
+            this.name = name;
+            this.textBoxOnForm = textBoxOnForm;
+            this.random = random;
+            this.cards = new Deck(new Card[] { });
+            textBoxOnForm.Text += name + " has just joined the game" + Environment.NewLine;
         }
 
         public IEnumerable<Values> PullOutBooks()
@@ -178,14 +265,12 @@ namespace Exercise_p391
                         cards.PullOutValues(value);
                     }
                 }
-
             }
             return books;
         }
 
         public Values GetRandomValue()
         {
-            random = new Random();
             { 
                 int randomNumber = random.Next(1, 13);
                 return (Values)randomNumber;
@@ -197,14 +282,12 @@ namespace Exercise_p391
         Deck pulledCards = cards.PullOutValues(value);
             if (pulledCards == null)
             {
-                //print "I do not have that card"
+                textBoxOnForm.Text += this.name + "has no cards of" + value;
             }
             else
             {
-                cards.Remove(pulledCards);
-                //print "I have" + pulledCards.Count "of" + value;
+                textBoxOnForm.Text += this.name + "has" + pulledCards.Count + "of value" + value;
             }
-            Form1.textProgress.Text += game.DescribePlayerHands();
             return pulledCards; 
         }
 
@@ -216,23 +299,19 @@ namespace Exercise_p391
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
         {
-            textProgress.Text += name + "asks if anyone has a" + value;
+            textBoxOnForm.Text += name + "asks if anyone has a" + value;
             players.RemoveAt(myIndex);
             foreach (Player player in players)
             {
                 Deck deck = DoYouHaveAny(value);
 
-                if (deck != null )
                 for (int i = 0; i < deck.Count; i++)
                 {
-                    cards.Add(deck.Deal(i));
-                        textProgress.Text += player.name + "has" + deck.Count + "of value" + value;
-                    }
-                else
-                    textProgress.Text += player.name + "has no cards of" + value;
+                    player.cards.Remove(deck);
+                    this.cards.Add(deck.Deal(i));
+                }
             }
         }
-
     }
 
 }

@@ -23,6 +23,14 @@ namespace Exercise_p391
             this.Value = value;
         }
 
+        public static string Plural(Values value)
+        {
+            if (value == Values.Six)
+                return "Sixes";
+            else
+                return value.ToString() + "s";
+        }
+
         public static bool DoesCardMatch(Card cardToCheck, Values value)
         {
             if (cardToCheck.Value == value)
