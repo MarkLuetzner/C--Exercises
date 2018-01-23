@@ -40,6 +40,9 @@
             this.results = new System.Windows.Forms.TextBox();
             this.lastUsed = new System.Windows.Forms.DateTimePicker();
             this.fileDate = new System.Windows.Forms.TextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // button1
@@ -143,8 +146,14 @@
             // 
             this.fileDate.Location = new System.Drawing.Point(107, 139);
             this.fileDate.Name = "fileDate";
-            this.fileDate.Size = new System.Drawing.Size(100, 20);
+            this.fileDate.ReadOnly = true;
+            this.fileDate.Size = new System.Drawing.Size(200, 20);
             this.fileDate.TabIndex = 11;
+            this.fileDate.TextChanged += new System.EventHandler(this.fileDate_TextChanged);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -165,6 +174,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Excuse Manager";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,6 +194,9 @@
         private System.Windows.Forms.TextBox results;
         private System.Windows.Forms.DateTimePicker lastUsed;
         private System.Windows.Forms.TextBox fileDate;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
