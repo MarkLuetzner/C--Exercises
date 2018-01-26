@@ -14,6 +14,8 @@ namespace Exercise_p446
 {
     public partial class Form1 : Form
     {
+
+        Random random = new Random();
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace Exercise_p446
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(output, deckToWrite);
             }
-            DealCards(deckToWrite, "What I just wroite to the file");
+            DealCards(deckToWrite, "What I just wrote to the file");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -42,7 +44,6 @@ namespace Exercise_p446
 
         private Deck RandomDeck(int number)
         {
-            Random random = new Random();
             Deck myDeck = new Deck(new Card[] { });
             for (int i = 0; i < number; i++)
             {
@@ -62,5 +63,33 @@ namespace Exercise_p446
             Console.WriteLine("----------");
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (Stream output = File.Create("Deck2.dat"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                for (int i = 1; i < 5; i++)
+                {
+                    Deck deckToWrite = RandomDeck(random.Next(1, 10));
+                    bf.Serialize(output, deckToWrite);
+                    DealCards(deckToWrite, "Deck #" + i + "written");
+                }
+
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            using (Stream input = File.OpenRead("Deck2.dat"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                for (int i = 1; i < 5; i++)
+                {
+                    Deck deckToRead = (Deck)bf.Deserialize(input);
+                    DealCards(deckToRead, "Deck #" + i + "read");
+                }
+
+            }
+        }
     }
 }
