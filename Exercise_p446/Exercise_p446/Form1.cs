@@ -91,5 +91,84 @@ namespace Exercise_p446
 
             }
         }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+
+            Deck deckToWrite1= new Deck(new Card[] { });
+            deckToWrite1.Add(new Card((Suits)1, (Values)3));
+
+            using (Stream output = File.Create("three-c.dat"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(output, deckToWrite1);
+            }
+
+            Deck deckToWrite2 = new Deck(new Card[] { });
+            deckToWrite2.Add(new Card((Suits)3, (Values)6));
+
+            using (Stream output = File.Create("six-h.dat"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(output, deckToWrite2);
+            }
+
+            byte[] firstFile = File.ReadAllBytes("three-c.dat");
+            byte[] secondFile = File.ReadAllBytes("six-h.dat");
+            for (int i = 0; i < firstFile.Length; i++)
+            {
+                if (firstFile[i] != secondFile[i])
+                    Console.WriteLine("Byte #{0}: {1} versus {2}", i, firstFile[i], secondFile[i]);
+            }
+
+            firstFile[1003] = (byte)Suits.Spades;
+            firstFile[1051] = (byte)Values.King;
+            File.Delete("king-s.dat");
+            File.WriteAllBytes("king-s.dat", firstFile);
+
+            using (Stream input = File.OpenRead("king-s.dat"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+
+                    Deck deckToRead = (Deck)bf.Deserialize(input);
+                DealCards(deckToRead, "What I just wrote to the file");
+            }
+            }
+
+        private void hexDump_Click(object sender, EventArgs e)
+        {
+            using (StreamReader reader = new StreamReader(@"C:\Users\Mark\Source\Repos\C--Exercises\Exercise_p446\Exercise_p446\bin\Debug\king-s.dat"))
+            using (StreamWriter writer = new StreamWriter(@"C:\Users\Mark\Source\Repos\C--Exercises\Exercise_p446\Exercise_p446\bin\Debug\output.dat", false))
+            {
+                int position = 0;
+                while (!reader.EndOfStream)
+                {
+                    char[] buffer = new Char[16];
+                    int charactersRead = reader.ReadBlock(buffer, 0, 16);
+                    writer.Write("{0}: ", String.Format("{0:x4}", position));
+                    position += charactersRead;
+
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (i < charactersRead)
+                        {
+                            string hex = String.Format("{0:x2}", (byte)buffer[i]);
+                            writer.Write(hex + " ");
+                        }
+                        else
+                            writer.Write("   ");
+
+                        if (i == 7) { writer.Write("-- ");  }
+                        if (buffer[i] < 32 || buffer[i] > 250) { buffer[i] = '.';  }
+                    }
+                    string bufferContents = new string(buffer);
+                    writer.WriteLine("  " + bufferContents);
+                }
+                //.Substring(0, charactersRead)
+
+            }
+            
+        }
     }
-}
+    }
+
