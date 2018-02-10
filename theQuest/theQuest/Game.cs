@@ -18,7 +18,6 @@ namespace theQuest
         public IEnumerable<string> PlayerWeapons { get { return player.Weapons;  } }
         private int level = 0;
         public int Level { get { return level; } }
-        public bool WeaponUsed { get { return player.used; } }
 
         private Rectangle boundaries;
         public Rectangle Boundaries { get { return boundaries; } }
@@ -34,6 +33,11 @@ namespace theQuest
             player.Move(direction);
             foreach (Enemy enemy in Enemies)
                 enemy.Move(random);
+        }
+
+        public bool CheckPotionUsed(string potionName)
+        {
+            return player.CheckPotionUsed(potionName);
         }
 
         public void Equip(string weaponName)

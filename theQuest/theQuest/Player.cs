@@ -14,19 +14,22 @@ namespace theQuest
         public int HitPoints { get; private set; }
         private List<Weapon> inventory = new List<Weapon>();
         private IPotion potion;
-        public bool used
-            { get {
-                if (equippedWeapon is IPotion)
+
+        public bool CheckPotionUsed(string potionName)
+        {
+            IPotion potion;
+            bool potionUsed = false;
+
+            foreach (Weapon weapon in inventory)
+            {
+                if (weapon.Name == potionName && weapon is IPotion)
                 {
-                    potion = equippedWeapon as IPotion;
-                    if (potion.Used == true)
-                        return true;
-                    else
-                        return false;
+                    potion = weapon as IPotion;
+                    potionUsed = potion.Used;
                 }
-                else
-                    return false;
-                    }
+            }
+
+            return potionUsed;
         }
 
 

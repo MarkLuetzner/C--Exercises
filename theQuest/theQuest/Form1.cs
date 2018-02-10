@@ -109,9 +109,9 @@ namespace theQuest
                 bowImageBar.Visible = true;
             if (game.CheckPlayerInventory("Mace"))
                 maceImageBar.Visible = true;
-            if (game.CheckPlayerInventory("Blue Potion") && game.WeaponUsed==false && bluePotionUsed==false)
+            if (game.CheckPlayerInventory("Blue Potion") && game.CheckPotionUsed("Blue Potion") == false)
                 bluePotionImageBar.Visible = true;
-            if (game.CheckPlayerInventory("Red Potion") && game.WeaponUsed==false)
+            if (game.CheckPlayerInventory("Red Potion"))
                 redPotionImageBar.Visible = true;
 
             // Toggle equipped weapon
@@ -232,15 +232,15 @@ namespace theQuest
 
         private void attackUpButton_Click(object sender, EventArgs e)
         {
-            if (game.WeaponUsed == false)
-            game.Attack(Direction.Up, random);
+            if (game.CheckPotionUsed("Blue Potion") == true)
+            {
+                game.Equip("Sword");
+                game.Attack(Direction.Up, random);
+            }
             else
             {
                 game.Attack(Direction.Up, random);
-                game.Equip("Sword");
-                bluePotionUsed = true;
             }
-
             UpdateCharacters();
         }
 
