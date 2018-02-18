@@ -65,6 +65,11 @@ namespace Exercise_p391
             else
                 UpdateForm();
         }
+
+        private void textBooks_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
     class Game

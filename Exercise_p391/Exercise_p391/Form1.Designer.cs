@@ -93,6 +93,7 @@
             this.textBooks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBooks.Size = new System.Drawing.Size(241, 59);
             this.textBooks.TabIndex = 5;
+            this.textBooks.TextChanged += new System.EventHandler(this.textBooks_TextChanged);
             // 
             // label4
             // 

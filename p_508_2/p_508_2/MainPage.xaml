@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="p_508_2.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:p_508_2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Grid.Row="1" Margin="120,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+            <TextBlock Margin="0,0,0,10" Text="Lumberjack name" Grid.Row="0" Style="{StaticResource BodyTextBlockStyle}"/>
+            <TextBox Margin="0,0,0,10" Grid.Row="1"/>
+            <TextBlock Margin="0,20,0,10" Text="Lumberjack name" Grid.Row="2" Style="{StaticResource BodyTextBlockStyle}"/>
+            <ListBox Grid.Row="3">
+                <ListBoxItem Content="Ed"/>
+                <ListBoxItem Content="Billy"/>
+                <ListBoxItem Content="Jones"/>
+                <ListBoxItem Content="Fred"/>
+                <ListBoxItem Content="Johansen"/>
+                <ListBoxItem Content="Boby Junior"/>
+            </ListBox>
+            <TextBlock Margin="0,20,0,10" Text="Feed a lumberjack" Grid.Row="4" Style="{StaticResource BodyTextBlockStyle}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="5">
+                <TextBox Margin="0,0,20,0" Text="2"/>
+                <ComboBox Margin="0,0,20,0">
+                    <ComboBoxItem Content="Banana"/>
+                    <ComboBoxItem Content="Banana2"/>
+                    <ComboBoxItem Content="Banana3"/>
+                    <ComboBoxItem Content="Banana4"/>
+                </ComboBox>
+                <Button Margin="0,0,20,0" Content="Add Flapjacks"/>
+            </StackPanel>
+            <ScrollViewer Grid.Row="6" Margin="0,20,0,0" Content="Ed has 7 flapjacks" BorderThickness="2" BorderBrush="White" MinHeight="80"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="7">
+                <Button Margin="0,20,20,0" Content="Add Lumberjack"/>
+                <Button Margin="0,20,20,0" Content="Next Lumberjack"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
