@@ -15,7 +15,6 @@ namespace p_528
         public string Name { get { return name; } }
         private Random random;
         private Deck cards;
-        private TextBox textBoxOnForm;
         private Game game;
 
         public int CardCount { get { return cards.Count; } }
@@ -31,6 +30,15 @@ namespace p_528
             this.random = random;
             this.cards = new Deck(new Card[] { });
             game.AddProgress(name + " has just joined the game" + Environment.NewLine);
+        }
+
+        public Deck DoYouHaveAny(Values value)
+        {
+            Deck pulledCards = cards.PullOutValues(value);
+
+                game.AddProgress(this.name + " has" + pulledCards.Count + Card.Plural(value) + Environment.NewLine);
+
+            return pulledCards;
         }
 
         public IEnumerable<Values> PullOutBooks()
@@ -60,20 +68,6 @@ namespace p_528
                 int randomNumber = random.Next(1, 13);
                 return (Values)randomNumber;
             }
-        }
-
-        public Deck DoYouHaveAny(Values value)
-        {
-            Deck pulledCards = cards.PullOutValues(value);
-            if (pulledCards == null)
-            {
-                game.AddProgress(this.name + " has no cards of " + value + Environment.NewLine);
-            }
-            else
-            {
-                game.AddProgress(this.name + " has " + pulledCards.Count + " of value " + value + Environment.NewLine);
-            }
-            return pulledCards;
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock)

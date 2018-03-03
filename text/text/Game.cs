@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Collections.ObjectModel;
 
-namespace p_528
+namespace textNamespace
 {
     class Game : INotifyPropertyChanged
     {
@@ -23,6 +23,7 @@ namespace p_528
         public string Books { get { return DescribeBooks(); } }
         public string GameProgress { get; private set; }
 
+
         public Game()
         {
             PlayerName = "Ed";
@@ -30,6 +31,18 @@ namespace p_528
             Hand = new ObservableCollection<string>();
             ResetGame();
         }
+
+
+        //(string playerName, IEnumerable<string> opponentNames, TextBox textBoxOnForm)            
+        //this.textBoxOnForm = textBoxOnForm;
+        //    players = new List<Player>();
+        //    players.Add(new Player(playerName, random, textBoxOnForm));
+        //    foreach (string player in opponentNames)
+        //        players.Add(new Player(player, random, textBoxOnForm));
+        //    books = new Dictionary<Values, Player>();
+        //    stock = new Deck();
+        //Deal();
+        //players[0].SortHand();
 
         public void StartGame()
         {
@@ -84,7 +97,7 @@ namespace p_528
                 player.PullOutBooks();
         }
 
-        public void PlayOneRound(int selectedPlayerCard)
+        public bool PlayOneRound(int selectedPlayerCard)
         {
 
             int myIndex = 0;
@@ -101,25 +114,16 @@ namespace p_528
                     player.TakeCard(stock.Deal());
                     AddProgress(player.Name + " drew a new hand " + Environment.NewLine);
                 }
-            OnPropertyChanged("Books");
-            players[0].SortHand();
 
+            players[0].SortHand();
             if (stock.Count == 0)
             {
                 AddProgress("The stock is out of cards. Game Over!");
-                AddProgress("The winner is..." + GetWinnerName());
-                ResetGame();
-                return;
+                GameInProgress = false;
+                return true;
             }
-
-            foreach (Player player in players)
-            {
-                Hand.Clear();
-                foreach (String cardName in GetPlayerCardNames())
-                    Hand.Add(cardName);
-                if (!GameInProgress)
-                    AddProgress(DescribePlayerHands());
-            }
+            else
+                return false;
         }
 
         public bool PullOutBooks(Player player)

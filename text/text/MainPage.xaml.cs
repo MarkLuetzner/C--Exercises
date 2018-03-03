@@ -15,39 +15,16 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace p_528
+namespace text
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    /// 
-    //sealed partial
-    partial class MainPage : Page
+    public sealed partial class MainPage : Page
     {
-
         public MainPage()
         {
             this.InitializeComponent();
-            //game = new Game();
-            booksDisplay.DataContext = game;
-            progressDisplay.DataContext = game;
-        }
-
-        private void askForACard_Click(object sender, RoutedEventArgs e)
-        {
-            if (cards.SelectedIndex >= 0)
-                game.PlayOneRound(cards.SelectedIndex);
-        }
-
-        private void startButton_Click(object sender, RoutedEventArgs e)
-        {
-            game.StartGame();
-        }
-
-        private void cards_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            if (cards.SelectedIndex >= 0)
-                game.PlayOneRound(cards.SelectedIndex);
         }
     }
 }
