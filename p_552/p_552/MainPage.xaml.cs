@@ -15,43 +15,37 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace p_528
+namespace p_552
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    /// 
-    //sealed partial
-    partial class MainPage : Page
+    public sealed partial class MainPage : Page
     {
-
         public MainPage()
         {
             this.InitializeComponent();
-            //booksDisplay.DataContext = game;
-            //progressDisplay.DataContext = game;
         }
 
-        private void askForACard_Click(object sender, RoutedEventArgs e)
+        private void WriteEd_Click(object sender, RoutedEventArgs e)
         {
-            if (cards.SelectedIndex >= 0)
-                game.PlayOneRound(cards.SelectedIndex);
+            guyManager.WriteGuyAsync(guyManager.Ed);
         }
 
-        private void startButton_Click(object sender, RoutedEventArgs e)
+        private void WriteBob_Click(object sender, RoutedEventArgs e)
         {
-            game.StartGame();
+            guyManager.WriteGuyAsync(guyManager.Bob);
         }
 
-        private void cards_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private void WriteJoe_Click(object sender, RoutedEventArgs e)
         {
-            if (cards.SelectedIndex >= 0)
-                game.PlayOneRound(cards.SelectedIndex);
+            guyManager.WriteGuyAsync(guyManager.Joe);
+
         }
 
-        private void progressDisplay_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private void ReadNewGuy_Click(object sender, RoutedEventArgs e)
         {
-
+            guyManager.ReadGuyAsync();
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace p_528
 {
-    class Game : INotifyPropertyChanged
+    public class Game : INotifyPropertyChanged
     {
         private List<Player> players;
         private Dictionary<Values, Player> books;
@@ -96,20 +96,27 @@ namespace p_528
             }
 
             foreach (Player player in players)
+            {
                 if (PullOutBooks(player))
                 {
-                    player.TakeCard(stock.Deal());
-                    AddProgress(player.Name + " drew a new hand " + Environment.NewLine);
-                }
-            OnPropertyChanged("Books");
-            players[0].SortHand();
+                    if (stock.Count < 3 && stock.Count > 0)
+                    {
+                        player.TakeCard(stock.Deal());
+                        AddProgress(player.Name + " drew a new hand " + Environment.NewLine);
+                    }
+                    else
+                    {
 
-            if (stock.Count == 0)
-            {
-                AddProgress("The stock is out of cards. Game Over!");
-                AddProgress("The winner is..." + GetWinnerName());
-                ResetGame();
-                return;
+                        AddProgress("The stock is out of cards. Game Over!");
+                        AddProgress("The winner is..." + GetWinnerName());
+                        ResetGame();
+                        OnPropertyChanged("Books");
+                        players[0].SortHand();
+                        return;
+                    }
+                }
+                OnPropertyChanged("Books");
+                players[0].SortHand();
             }
 
             foreach (Player player in players)
@@ -122,7 +129,7 @@ namespace p_528
             }
         }
 
-        public bool PullOutBooks(Player player)
+        private bool PullOutBooks(Player player)
         {
             IEnumerable<Values> booksPulled = player.PullOutBooks();
             foreach (Values value in booksPulled)
@@ -139,20 +146,10 @@ namespace p_528
 
         public string DescribeBooks()
         {
-            Dictionary<string, int> scores = new Dictionary<string, int>();
-            foreach (Player player in players)
-                scores.Add(player.Name, 0);
-
+            string scoreString = " ";
             foreach (Values value in books.Keys)
             {
-                string name = books[value].Name;
-                if (scores.ContainsKey(name))
-                    scores[name]++;
-            }
-            string scoreString = "";
-            foreach (string name in scores.Keys)
-            {
-                scoreString += name + " has " + scores[name] + " books." + Environment.NewLine;
+                scoreString += books[value].Name + " has a book of " + Card.Plural(value) + Environment.NewLine;
             }
             return scoreString;
         }
@@ -221,7 +218,7 @@ namespace p_528
 
         public void AddProgress(string progress)
         {
-            GameProgress = progress + Environment.NewLine + GameProgress;
+            GameProgress = GameProgress + Environment.NewLine + progress;
             OnPropertyChanged("GameProgress");
         }
 

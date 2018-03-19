@@ -36,7 +36,7 @@ namespace p_528
         {
             Deck pulledCards = cards.PullOutValues(value);
 
-                game.AddProgress(this.name + " has" + pulledCards.Count + Card.Plural(value) + Environment.NewLine);
+                game.AddProgress(this.name + " has " + pulledCards.Count + " "+ Card.Plural(value) + Environment.NewLine);
 
             return pulledCards;
         }
@@ -95,7 +95,7 @@ namespace p_528
 
             if (totalCardsGiven == 0 & stock.Count > 0)
             {
-                game.AddProgress(Name + " must daw from the stock." + Environment.NewLine);
+                game.AddProgress(Name + " must draw from the stock." + Environment.NewLine);
                 cards.Add(stock.Deal());
             }
 
